@@ -1,56 +1,148 @@
-import pandas_datareader.data as web
 import pandas as pd
-import datetime
+from fredapi import Fred
 
 # --- CONFIGURATION ---
-START_DATE = "2020-01-01"
-END_DATE = "2024-01-01"
+# Replace with your actual 32-character API key
+API_KEY = 'api'
+
+# Your requested mapping
+INDICATORS_MAP = {
+    'FEDFUNDS': 'Interest_Rate',  # Federal Funds Rate (Monthly)
+    'CPIAUCSL': 'CPI',  # Consumer Price Index (Monthly)
+    'PPIACO': 'PPI_Commodities',  # Producer Price Index (Monthly)
+    'UNRATE': 'Unemployment_Rate',  # Unemployment Rate (Monthly)
+    'PAYEMS': 'NFP_Total_Jobs',  # Non-Farm Payrolls (Monthly)
+    'ICSA': 'Jobless_Claims_Initial',  # Initial Claims (Weekly)
+    'CCSA': 'Jobless_Claims_Continuing',  # Continuing Claims (Weekly)
+    'BOPGSTB': 'Trade_Balance',  # Trade Balance (Monthly)
+    'EXPGS': 'Exports',  # Exports (Monthly)
+    'IMPGS': 'Imports',  # Imports (Monthly)
+    'DGS2': 'US_Treasury_2Y_Yield',  # 2Y Yield (Daily)
+    'VIXCLS': 'VIX',  # VIX (Daily Close)
+    'DFII10': 'TIPS_10Y_Real_Yield',  # Real Yield (Daily)
+    'NAPM': 'ISM_PMI_Manufacturing'  # ISM PMI (Monthly)
+}
 
 
-def get_macro_data():
-    """
-    Downloads Federal Funds Rate (Interest Rate) from FRED.
-    Symbol: 'FEDFUNDS'
-    """
-    try:
-        # 'FEDFUNDS' is the effective federal funds rate (monthly)
-        df_macro = web.DataReader("FEDFUNDS", "fred", START_DATE, END_DATE)
+def fetch_fred_data(api_key, indicators):
+    print("Connecting to FRED API...")
+    fred = Fred(api_key=api_key)
 
-        # Since macro data is monthly, we need to resample it to daily
-        # to merge it with price data later. 'ffill' propagates the last value forward.
-        df_macro = df_macro.resample('D').ffill()
+    data_frames = []
 
-        return df_macro
-    except Exception as e:
-        print(f"Error downloading FRED data: {e}")
+    for ticker, name in indicators.items():
+        try:
+            print(f"Fetching {ticker} -> {name}...")
+            # get_series returns a pandas Series
+            series = fred.get_series(ticker)
+            series.name = name
+            data_frames.append(series)
+        except Exception as e:
+            print(f"Error fetching {ticker}: {e}")
+            print("Note: Some series like NAPM might be discontinued or restricted.")
+
+    if not data_frames:
         return pd.DataFrame()
 
+    print("Aligning data...")
+    # 1. Concatenate all series into one DataFrame (Outer Join)
+    df = pd.concat(data_frames, axis=1)
 
-# Example Usage
-df_rates = get_macro_data()
+    # 2. Sort by Date
+    df = df.sort_index()
 
-# Let's say we have our Price Data (EURUSD)
-# For demo purposes, creating a dummy dataframe
-dates = pd.date_range(start=START_DATE, end=END_DATE, freq='D')
-df_prices = pd.DataFrame(index=dates, data={'Close': 1.1000})  # Dummy price
+    # 3. Handle Frequency Mismatch (Normalization)
+    # Since we have Daily, Weekly, and Monthly data mixed:
+    # We usually Forward Fill (ffill) so that on any given day,
+    # the system sees the "last known" economic value.
+    df_filled = df.ffill()
 
-# Merge Price and Macro Data
-# We align them by index (Date)
-df_combined = df_prices.join(df_rates)
-df_combined = df_combined.rename(columns={'FEDFUNDS': 'Interest_Rate'})
+    # Optional: Drop rows before 2000 if you want to save memory
+    df_filled = df_filled[df_filled.index >= '2000-01-01']
 
-# Forward fill any missing weekend data
-df_combined = df_combined.ffill()
+    return df_filled
 
-print(df_combined.tail())
 
-# --- LOGIC IMPLEMENTATION ---
-# Example: Only trade LONG USD if Interest Rates are rising (Momentum)
-current_rate = df_combined.iloc[-1]['Interest_Rate']
-prev_rate = df_combined.iloc[-30]['Interest_Rate']  # Rate 30 days ago
+# --- MAIN EXECUTION ---
+if __name__ == "__main__":
+        df_macro = fetch_fred_data(API_KEY, INDICATORS_MAP)
 
-if current_rate > prev_rate:
-    print("Fundamental Bias: BULLISH USD (Rates are rising)")
-    # set_strategy_bias("Short EURUSD")
+        if not df_macro.empty:
+            print("-" * 30)
+            print("Data Fetch Complete.")
+            print(df_macro.tail())  # Show last 5 rows
+
+            # Save to CSV for your backtest
+            df_macro.to_csv("macro_data.csv")
+            print("Saved to macro_data.csv")
+
+#rules
+"""if current_data['NFP_Total_Jobs'] > prev_data['NFP_Total_Jobs']:
+    print(f"[NFP] Jobs trend is UP. Bullish USD.")
 else:
-    print("Fundamental Bias: NEUTRAL/BEARISH USD")
+    print(f"[NFP] Jobs trend is DOWN. Bearish USD.")
+
+if current_data['US_Treasury_2Y_Yield'] > prev_data['US_Treasury_2Y_Yield']:
+    print(f"[TIPS] Real Yields rising. Bearish Gold.")
+else:
+    print(f"[TIPS] Real Yields falling. Bullish Gold.")
+
+if current_data["VIX"] > prev_data["VIX"]:
+    print(f"[VIX] VIX rising. ?Bearish USD?. Bullish Gold")
+else:
+    print(f"[VIX] VIX falling. ?Bullish USD?. Bearish Gold")
+
+if current_data["Trade_Balance"] > prev_data["Trade_Balance"]:
+    print(f"[Trade Balance] Trade Balance raising. Bullish USD. Bullish Oil")
+else:
+    print(f"[Trade Balance] Trade Balance falling. Bearish USD. Bearish Oil")
+
+if (current_data["Exports"] > prev_data["Exports"]) and (current_data["Imports"] < prev_data["Imports"]):
+    print(f"Deflation.")
+else:
+    print(f"Inflation.")
+
+# 1. LOGIC: JOBLESS CLAIMS (Specific Request)
+# Initial Claims UP (Bad), Continuing Claims DOWN (Good) -> Mixed Signal -> Reversal
+initial_up = current_data['Jobless_Claims_Initial'] > prev_data['Jobless_Claims_Initial']
+continuing_down = current_data['Jobless_Claims_Continuing'] < prev_data['Jobless_Claims_Continuing']
+
+if initial_up and continuing_down:
+    print(f"[CLAIMS] MIXED SIGNAL: Initial UP, Continuing DOWN.")
+    print(f"ACTION: Wait 1 hour -> Expect REVERSAL for Gold.")
+elif initial_up and not continuing_down:
+    print(f"[CLAIMS] Both metrics Bad for Economy. Clear Bullish Gold.")
+elif not initial_up and continuing_down:
+    print(f"[CLAIMS] Both metrics Good for Economy. Clear Bearish Gold.")
+else:
+    print(f"[CLAIMS] Neutral/Mixed (Initial Down, Continuing Up).")
+
+if current_data['TIPS_10Y_Real_Yield'] > prev_data['TIPS_10Y_Real_Yield']:
+    print(f"[TIPS] Real Yields are RISING ({current_data['TIPS_10Y_Real_Yield']:.2f}%).")
+    print(f"Action: BEARISH GOLD (Sell XAUUSD). Opportunity cost of holding Gold is increasing.")
+elif current_data['TIPS_10Y_Real_Yield'] < prev_data['TIPS_10Y_Real_Yield']:
+    print(f"[TIPS] Real Yields are FALLING ({current_data['TIPS_10Y_Real_Yield']:.2f}%).")
+    print(f"Action: BULLISH GOLD (Buy XAUUSD). Gold becomes attractive.")
+else:
+    print(f"[TIPS] Real Yields unchanged.")
+
+
+current_pmi = current_data['ISM_PMI_Manufacturing']
+prev_pmi    = prev_data['ISM_PMI_Manufacturing']
+
+# 1. Базовое правило 50
+if current_pmi > 50:
+    print(f"[PMI] {current_pmi} > 50. Economy is EXPANDING.")
+    print("  -> Bullish USD (Strong economy).")
+    print("  -> Bearish Gold (Risk On).")
+else:
+    print(f"[PMI] {current_pmi} < 50. Economy is CONTRACTING.")
+    print("  -> Bearish USD (Recession risk).")
+    print("  -> Bullish Gold (Safe Haven demand).")
+
+# 2. Правило Импульса (Momentum)
+# Даже если PMI = 55 (рост), но месяц назад был 60 -> это замедление.
+if current_pmi > prev_pmi:
+    print(f"  -> [Trend] Activity is ACCELERATING (Better than last month).")
+else:
+    print(f"  -> [Trend] Activity is SLOWING DOWN (Worse than last month).")"""

@@ -1,6 +1,7 @@
 import pandas as pd
 import os
 import numpy as np
+import yfinance as yf
 
 # --- CONFIGURATION ---
 SYMBOLS = ["USDJPY", "XAUUSD", "BRENTCMDUSD"]
