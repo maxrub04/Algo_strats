@@ -1,148 +1,209 @@
 import pandas as pd
 from fredapi import Fred
+import numpy as np
 
 # --- CONFIGURATION ---
-# Replace with your actual 32-character API key
-API_KEY = 'api'
+API_KEY = 'bb21719b26aff61c740702ea701a07ed'
 
-# Your requested mapping
 INDICATORS_MAP = {
-    'FEDFUNDS': 'Interest_Rate',  # Federal Funds Rate (Monthly)
-    'CPIAUCSL': 'CPI',  # Consumer Price Index (Monthly)
-    'PPIACO': 'PPI_Commodities',  # Producer Price Index (Monthly)
-    'UNRATE': 'Unemployment_Rate',  # Unemployment Rate (Monthly)
-    'PAYEMS': 'NFP_Total_Jobs',  # Non-Farm Payrolls (Monthly)
-    'ICSA': 'Jobless_Claims_Initial',  # Initial Claims (Weekly)
-    'CCSA': 'Jobless_Claims_Continuing',  # Continuing Claims (Weekly)
-    'BOPGSTB': 'Trade_Balance',  # Trade Balance (Monthly)
-    'EXPGS': 'Exports',  # Exports (Monthly)
-    'IMPGS': 'Imports',  # Imports (Monthly)
-    'DGS2': 'US_Treasury_2Y_Yield',  # 2Y Yield (Daily)
-    'VIXCLS': 'VIX',  # VIX (Daily Close)
-    'DFII10': 'TIPS_10Y_Real_Yield',  # Real Yield (Daily)
-    'NAPM': 'ISM_PMI_Manufacturing'  # ISM PMI (Monthly)
+    'FEDFUNDS': 'Interest_Rate',
+    'CPIAUCSL': 'CPI',
+    'PPIACO': 'PPI_Commodities',
+    'UNRATE': 'Unemployment_Rate',
+    'PAYEMS': 'NFP_Total_Jobs',
+    'ICSA': 'Jobless_Claims_Initial',
+    'CCSA': 'Jobless_Claims_Continuing',
+    'BOPGSTB': 'Trade_Balance',
+    'EXPGS': 'Exports',
+    'IMPGS': 'Imports',
+    'DGS2': 'US_Treasury_2Y_Yield',
+    'VIXCLS': 'VIX',
+    'DFII10': 'TIPS_10Y_Real_Yield',
+    'NAPM': 'ISM_PMI_Manufacturing'
 }
 
 
+# --- 1. DATA FETCHING ---
 def fetch_fred_data(api_key, indicators):
     print("Connecting to FRED API...")
-    fred = Fred(api_key=api_key)
+    try:
+        fred = Fred(api_key=api_key)
+    except Exception as e:
+        print(f"Auth Error: {e}")
+        return pd.DataFrame()
 
     data_frames = []
-
     for ticker, name in indicators.items():
         try:
             print(f"Fetching {ticker} -> {name}...")
-            # get_series returns a pandas Series
             series = fred.get_series(ticker)
             series.name = name
             data_frames.append(series)
         except Exception as e:
             print(f"Error fetching {ticker}: {e}")
-            print("Note: Some series like NAPM might be discontinued or restricted.")
 
     if not data_frames:
         return pd.DataFrame()
 
     print("Aligning data...")
-    # 1. Concatenate all series into one DataFrame (Outer Join)
     df = pd.concat(data_frames, axis=1)
-
-    # 2. Sort by Date
     df = df.sort_index()
-
-    # 3. Handle Frequency Mismatch (Normalization)
-    # Since we have Daily, Weekly, and Monthly data mixed:
-    # We usually Forward Fill (ffill) so that on any given day,
-    # the system sees the "last known" economic value.
+    # Forward fill is crucial because data comes at different frequencies (Daily vs Monthly)
     df_filled = df.ffill()
-
-    # Optional: Drop rows before 2000 if you want to save memory
+    # Filter from year 2000
     df_filled = df_filled[df_filled.index >= '2000-01-01']
 
     return df_filled
 
 
-# --- MAIN EXECUTION ---
+# --- 2. STRATEGY LOGIC ENGINE ---
+def analyze_market_conditions(current, prev):
+    """
+    Applies the user's logic rules to a single row of data compared to previous.
+    Returns a dictionary of signals and a text summary.
+    """
+    signals = []
+    summary_text = []
+
+    # Helper to safely get value (handles missing columns if download failed)
+    def get_val(row, col):
+        return row.get(col, 0)
+
+    # --- RULE 1: NFP (Jobs) ---
+    if get_val(current, 'NFP_Total_Jobs') > get_val(prev, 'NFP_Total_Jobs'):
+        signals.append("NFP_UP")
+        summary_text.append("[NFP] Jobs trend UP -> Bullish USD.")
+    else:
+        signals.append("NFP_DOWN")
+        summary_text.append("[NFP] Jobs trend DOWN -> Bearish USD.")
+
+    # --- RULE 2: US Treasury 2Y Yield ---
+    if get_val(current, 'US_Treasury_2Y_Yield') > get_val(prev, 'US_Treasury_2Y_Yield'):
+        signals.append("YIELD_2Y_UP")
+        # Note: Usually rising nominal yields are Bearish Gold, but your logic said:
+        summary_text.append("[2Y Yield] Rising -> Bearish Gold.")
+    else:
+        signals.append("YIELD_2Y_DOWN")
+        summary_text.append("[2Y Yield] Falling -> Bullish Gold.")
+
+    # --- RULE 3: VIX ---
+    if get_val(current, 'VIX') > get_val(prev, 'VIX'):
+        signals.append("VIX_RISK_OFF")
+        summary_text.append("[VIX] Rising (Fear) -> Bullish Gold / Bearish Stocks.")
+    else:
+        signals.append("VIX_RISK_ON")
+        summary_text.append("[VIX] Falling (Calm) -> Bearish Gold / Bullish Stocks.")
+
+    # --- RULE 4: Trade Balance ---
+    if get_val(current, 'Trade_Balance') > get_val(prev, 'Trade_Balance'):
+        summary_text.append("[Trade] Balance Improving -> Bullish USD / Bullish Oil.")
+    else:
+        summary_text.append("[Trade] Balance Worsening -> Bearish USD / Bearish Oil.")
+
+    # --- RULE 5: Inflation/Deflation (Exp/Imp) ---
+    if (get_val(current, "Exports") > get_val(prev, "Exports")) and \
+            (get_val(current, "Imports") < get_val(prev, "Imports")):
+        signals.append("DEFLATION_PRESSURE")
+        summary_text.append("[Macro] Deflationary signal (Exp UP / Imp DOWN).")
+    else:
+        summary_text.append("[Macro] Inflationary context.")
+
+    # --- RULE 6: Jobless Claims (Detailed) ---
+    init_up = get_val(current, 'Jobless_Claims_Initial') > get_val(prev, 'Jobless_Claims_Initial')
+    cont_down = get_val(current, 'Jobless_Claims_Continuing') < get_val(prev, 'Jobless_Claims_Continuing')
+
+    if init_up and cont_down:
+        signals.append("CLAIMS_MIXED")
+        summary_text.append("[CLAIMS] MIXED: Initial UP, Continuing DOWN -> Wait for Reversal.")
+    elif init_up and not cont_down:
+        signals.append("CLAIMS_BAD")
+        summary_text.append("[CLAIMS] Economy Weakening -> Bullish Gold.")
+    elif not init_up and cont_down:
+        signals.append("CLAIMS_GOOD")
+        summary_text.append("[CLAIMS] Economy Strengthening -> Bearish Gold.")
+    else:
+        summary_text.append("[CLAIMS] Neutral/Mixed.")
+
+    # --- RULE 7: TIPS (Real Yields) ---
+    # Most direct correlation to Gold
+    tips_curr = get_val(current, 'TIPS_10Y_Real_Yield')
+    tips_prev = get_val(prev, 'TIPS_10Y_Real_Yield')
+
+    if tips_curr > tips_prev:
+        signals.append("REAL_YIELD_UP")
+        summary_text.append(f"[TIPS] Real Yield RISING ({tips_curr:.2f}%) -> STRONG SELL GOLD.")
+    elif tips_curr < tips_prev:
+        signals.append("REAL_YIELD_DOWN")
+        summary_text.append(f"[TIPS] Real Yield FALLING ({tips_curr:.2f}%) -> STRONG BUY GOLD.")
+
+    # --- RULE 8: PMI (ISM) ---
+    pmi_curr = get_val(current, 'ISM_PMI_Manufacturing')
+    pmi_prev = get_val(prev, 'ISM_PMI_Manufacturing')
+
+    # Check if PMI column exists and is not 0/NaN
+    if pmi_curr > 0:
+        trend = "ACCELERATING" if pmi_curr > pmi_prev else "SLOWING"
+        zone = "EXPANSION" if pmi_curr > 50 else "CONTRACTION"
+
+        summary_text.append(f"[PMI] {pmi_curr} ({zone}). Trend: {trend}.")
+
+        if pmi_curr > 50:
+            summary_text.append("  -> Bullish USD / Bearish Gold.")
+        else:
+            summary_text.append("  -> Bearish USD / Bullish Gold.")
+
+    return signals, "\n".join(summary_text)
+
+
+# --- 3. MAIN EXECUTION ---
 if __name__ == "__main__":
-        df_macro = fetch_fred_data(API_KEY, INDICATORS_MAP)
 
-        if not df_macro.empty:
-            print("-" * 30)
-            print("Data Fetch Complete.")
-            print(df_macro.tail())  # Show last 5 rows
+    # A. Get Data
+    df = fetch_fred_data(API_KEY, INDICATORS_MAP)
 
-            # Save to CSV for your backtest
-            df_macro.to_csv("macro_data.csv")
-            print("Saved to macro_data.csv")
+    if not df.empty:
+        print("\n" + "=" * 40)
+        print("STARTING MACRO ANALYSIS")
+        print("=" * 40)
 
-#rules
-"""if current_data['NFP_Total_Jobs'] > prev_data['NFP_Total_Jobs']:
-    print(f"[NFP] Jobs trend is UP. Bullish USD.")
-else:
-    print(f"[NFP] Jobs trend is DOWN. Bearish USD.")
+        # B. Apply Logic to History (Optional: creates a log for every day)
+        # We will create a list to store results
+        analysis_results = []
 
-if current_data['US_Treasury_2Y_Yield'] > prev_data['US_Treasury_2Y_Yield']:
-    print(f"[TIPS] Real Yields rising. Bearish Gold.")
-else:
-    print(f"[TIPS] Real Yields falling. Bullish Gold.")
+        # Iterate from the 2nd row to compare with previous
+        # (This can be slow for 20 years, for speed use vectorization,
+        # but for complex logic loops are clearer)
+        for i in range(1, len(df)):
+            current_date = df.index[i]
+            current_row = df.iloc[i]
+            prev_row = df.iloc[i - 1]
 
-if current_data["VIX"] > prev_data["VIX"]:
-    print(f"[VIX] VIX rising. ?Bearish USD?. Bullish Gold")
-else:
-    print(f"[VIX] VIX falling. ?Bullish USD?. Bearish Gold")
+            # Check if there is ANY change in data (since we use ffill, many days are identical)
+            # We only want to analyze when data updates
+            if not current_row.equals(prev_row):
+                signals_list, report = analyze_market_conditions(current_row, prev_row)
+                analysis_results.append({
+                    "Date": current_date,
+                    "Report": report,
+                    "Signals": signals_list
+                })
 
-if current_data["Trade_Balance"] > prev_data["Trade_Balance"]:
-    print(f"[Trade Balance] Trade Balance raising. Bullish USD. Bullish Oil")
-else:
-    print(f"[Trade Balance] Trade Balance falling. Bearish USD. Bearish Oil")
+        # Save Analysis History
+        df_analysis = pd.DataFrame(analysis_results)
+        #df_analysis.to_csv("macro_analysis_log.csv", index=False)
+        print(f"Historical analysis saved to macro_analysis_log.csv ({len(df_analysis)} updates found).")
 
-if (current_data["Exports"] > prev_data["Exports"]) and (current_data["Imports"] < prev_data["Imports"]):
-    print(f"Deflation.")
-else:
-    print(f"Inflation.")
+        # C. SHOW LATEST REPORT (What to do NOW)
+        print("\n" + "*" * 40)
+        print(f"LATEST SIGNAL REPORT: {df.index[-1].date()}")
+        print("*" * 40)
 
-# 1. LOGIC: JOBLESS CLAIMS (Specific Request)
-# Initial Claims UP (Bad), Continuing Claims DOWN (Good) -> Mixed Signal -> Reversal
-initial_up = current_data['Jobless_Claims_Initial'] > prev_data['Jobless_Claims_Initial']
-continuing_down = current_data['Jobless_Claims_Continuing'] < prev_data['Jobless_Claims_Continuing']
+        # Get the very last row and the one before it
+        last_row = df.iloc[-1]
+        prev_row = df.iloc[-2]
 
-if initial_up and continuing_down:
-    print(f"[CLAIMS] MIXED SIGNAL: Initial UP, Continuing DOWN.")
-    print(f"ACTION: Wait 1 hour -> Expect REVERSAL for Gold.")
-elif initial_up and not continuing_down:
-    print(f"[CLAIMS] Both metrics Bad for Economy. Clear Bullish Gold.")
-elif not initial_up and continuing_down:
-    print(f"[CLAIMS] Both metrics Good for Economy. Clear Bearish Gold.")
-else:
-    print(f"[CLAIMS] Neutral/Mixed (Initial Down, Continuing Up).")
-
-if current_data['TIPS_10Y_Real_Yield'] > prev_data['TIPS_10Y_Real_Yield']:
-    print(f"[TIPS] Real Yields are RISING ({current_data['TIPS_10Y_Real_Yield']:.2f}%).")
-    print(f"Action: BEARISH GOLD (Sell XAUUSD). Opportunity cost of holding Gold is increasing.")
-elif current_data['TIPS_10Y_Real_Yield'] < prev_data['TIPS_10Y_Real_Yield']:
-    print(f"[TIPS] Real Yields are FALLING ({current_data['TIPS_10Y_Real_Yield']:.2f}%).")
-    print(f"Action: BULLISH GOLD (Buy XAUUSD). Gold becomes attractive.")
-else:
-    print(f"[TIPS] Real Yields unchanged.")
-
-
-current_pmi = current_data['ISM_PMI_Manufacturing']
-prev_pmi    = prev_data['ISM_PMI_Manufacturing']
-
-# 1. Базовое правило 50
-if current_pmi > 50:
-    print(f"[PMI] {current_pmi} > 50. Economy is EXPANDING.")
-    print("  -> Bullish USD (Strong economy).")
-    print("  -> Bearish Gold (Risk On).")
-else:
-    print(f"[PMI] {current_pmi} < 50. Economy is CONTRACTING.")
-    print("  -> Bearish USD (Recession risk).")
-    print("  -> Bullish Gold (Safe Haven demand).")
-
-# 2. Правило Импульса (Momentum)
-# Даже если PMI = 55 (рост), но месяц назад был 60 -> это замедление.
-if current_pmi > prev_pmi:
-    print(f"  -> [Trend] Activity is ACCELERATING (Better than last month).")
-else:
-    print(f"  -> [Trend] Activity is SLOWING DOWN (Worse than last month).")"""
+        _, final_report = analyze_market_conditions(last_row, prev_row)
+        print(final_report)
+        print("*" * 40)
+    else:
+        print("Data download failed. Check API Key.")
