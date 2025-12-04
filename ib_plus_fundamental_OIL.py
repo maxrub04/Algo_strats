@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 
 # --- CONFIGURATION ---
 # 1. API KEYS & PATHS
-FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'  # <-- INSERT KEY HERE
+FRED_API_KEY = ''  # <-- INSERT KEY HERE
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 
 # 2. STRATEGY SETTINGS
