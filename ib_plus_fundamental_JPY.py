@@ -2,9 +2,6 @@ import pandas as pd
 import os
 import numpy as np
 from fredapi import Fred
-import matplotlib.pyplot as plt
-import yfinance as yf
-import seaborn as sns
 
 # --- CONFIGURATION ---
 # 1. API KEYS & PATHS
@@ -12,15 +9,15 @@ FRED_API_KEY = ''  # <-- INSERT KEY HERE
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 
 # 2. STRATEGY SETTINGS
-SYMBOLS = ["BRENTCMDUSD"] #SO 2010-2018 GOLD not bad, 2020+ good for oil
-TIMEFRAMES = ["4h"]
+SYMBOLS = ["USDJPY"]  # Focused on Gold for this example logic
+TIMEFRAMES = ["1h"]
 RISK_REWARD = 2.0
 INITIAL_CAPITAL = 10000.0
 RISK_PERCENT = 1.0
 
 # 3. DATE RANGE
-start_date = pd.to_datetime("2013-01-20")
-end_date = pd.to_datetime("2016-04-20")
+start_date = pd.to_datetime("2010-09-20")
+end_date = pd.to_datetime("2014-09-20")
 
 
 # --- PART 1: MACRO DATA PROCESSING ---
@@ -41,6 +38,7 @@ class MacroProcessor:
             'DGS2': 'US_Treasury_2Y_Yield',
             'VIXCLS': 'VIX',
             'DFII10': 'TIPS_10Y_Real_Yield',
+            'NAPM': 'ISM_PMI'
         }
 
     def fetch_and_process(self):
@@ -77,34 +75,13 @@ class MacroProcessor:
 
         # Rule 2: Real Yields (The big killer for Gold)
         # Rising Yields = Strong USD
-        #df_macro['Yield_Change'] = df_macro['US_Treasury_2Y_Yield'].diff()
-        #df_macro.loc[df_macro['Yield_Change'] > 0, 'USD_Score'] += 1 # Weighted heavier
-        #df_macro.loc[df_macro['Yield_Change'] < 0, 'USD_Score'] -= 1
+        df_macro['Yield_Change'] = df_macro['US_Treasury_2Y_Yield'].diff()
+        df_macro.loc[df_macro['Yield_Change'] > 0, 'USD_Score'] += 2  # Weighted heavier
+        df_macro.loc[df_macro['Yield_Change'] < 0, 'USD_Score'] -= 2
 
-
-        # Rule 3: Tips (The big killer for Gold)
-        df_macro["TIPS_10Y_Real_Yield"] = df_macro["TIPS_10Y_Real_Yield"].diff()
-        df_macro.loc[df_macro["TIPS_10Y_Real_Yield"] > 0, "USD_Score"] += 1
-        df_macro.loc[df_macro["TIPS_10Y_Real_Yield"] < 0, "USD_Score"] -= 1
-
-
-        # Rule 4: Inflation vs Deflation
-        df_macro["Imports"]= df_macro["Imports"].diff()
-        df_macro["Exports"] = df_macro["Exports"].diff()
-        df_macro.loc[(df_macro["Imports"] < 0) & (df_macro["Exports"] >0), "USD_Score"] += 1 #deflation
-        df_macro.loc[(df_macro["Imports"] > 0) & (df_macro["Exports"] <0), "USD_Score"] -= 1 #inflation
-        # Rule 5: Federal Balance
-
-        df_macro["Trade_Balance"] = df_macro["Trade_Balance"].diff()
-        df_macro.loc[df_macro["Trade_Balance"] > 0, "USD_Score"] += 1
-        df_macro.loc[df_macro["Trade_Balance"] < 0, "USD_Score"] -= 1
-
-        #rule 6: unemployment rate
-        #df_macro["Unemployment_Rate"] = df_macro["Unemployment_Rate"].diff()
-        #df_macro.loc[df_macro["Unemployment_Rate"] > 0, "USD_Score"] -= 1
-        #df_macro.loc[df_macro["Unemployment_Rate"] < 0, "USD_Score"] += 1
-
-
+        # Rule 3: PMI
+        #df_macro.loc[df_macro['ISM_PMI'] > 50, 'USD_Score'] += 1
+        #df_macro.loc[df_macro['ISM_PMI'] < 50, 'USD_Score'] -= 1
 
         # Prepare for merge (reset index to make Date a column)
         df_macro.index.name = 'DateTime'
@@ -140,158 +117,6 @@ def merge_macro_to_ohlc(df_ohlc, df_macro):
     df_merged['USD_Score'] = df_merged['USD_Score'].fillna(0)
 
     return df_merged
-
-
-
-# Set style
-sns.set(style="darkgrid")
-
-#eda
-def perform_advanced_eda(df_trades):
-    if df_trades.empty:
-        print("No trades to analyze.")
-        return
-
-    # --- PRE-PROCESSING ---
-    df_trades['DateTime'] = pd.to_datetime(df_trades['Date'])
-    df_trades['Hour'] = df_trades['DateTime'].dt.hour
-    df_trades['DayOfWeek'] = df_trades['DateTime'].dt.day_name()
-    days_order = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
-
-    # --- FETCH & PREPARE SP500 BENCHMARK ---
-    print("Fetching S&P 500 data for comparison...")
-    has_benchmark = False
-
-    try:
-        start_date = df_trades['DateTime'].min()
-        end_date = df_trades['DateTime'].max()
-
-        # FIX 1: Explicitly set auto_adjust=False to silence warning
-        # FIX 2: Handle Timezones (tz_localize(None)) to fix "dimensions mismatch"
-        sp500_df = yf.download("^GSPC", start=start_date, end=end_date, progress=False, auto_adjust=False)
-
-        if not sp500_df.empty:
-            # Handle MultiIndex columns if present (common in new yfinance)
-            if isinstance(sp500_df.columns, pd.MultiIndex):
-                sp500 = sp500_df.xs('Close', axis=1, level=0)
-                if isinstance(sp500, pd.DataFrame):
-                    sp500 = sp500.iloc[:, 0]  # Ensure it's a Series
-            else:
-                sp500 = sp500_df['Close']
-
-            # CRITICAL FIX: Remove Timezone info to match your Trade Data
-            sp500.index = sp500.index.tz_localize(None)
-
-            # 1. Create Strategy Equity Curve
-            daily_idx = pd.date_range(start=start_date, end=end_date, freq='D')
-
-            # Group trades by day
-            strategy_daily = df_trades.set_index('DateTime')['Balance'].resample('D').last()
-
-            # Reindex strategy to fill missing days
-            strategy_equity = strategy_daily.reindex(daily_idx).ffill().dropna()
-
-            # Align SP500 to the exact same days as strategy
-            sp500 = sp500.reindex(strategy_equity.index).ffill().dropna()
-
-            # Ensure indices match perfectly before calculation
-            common_idx = strategy_equity.index.intersection(sp500.index)
-            strategy_equity = strategy_equity.loc[common_idx]
-            sp500 = sp500.loc[common_idx]
-
-            if not sp500.empty and not strategy_equity.empty:
-                # 2. Normalize to Percentage Return
-                strategy_pct = (strategy_equity / strategy_equity.iloc[0] - 1) * 100
-                sp500_pct = (sp500 / sp500.iloc[0] - 1) * 100
-
-                correlation = strategy_pct.corr(sp500_pct)
-                has_benchmark = True
-            else:
-                print("Data alignment resulted in empty sets.")
-
-    except Exception as e:
-        print(f"Could not fetch S&P 500 data: {e}")
-        has_benchmark = False
-
-    # --- PLOTTING ---
-    fig = plt.figure(figsize=(20, 20))
-    gs = fig.add_gridspec(4, 3)
-
-    # 1. EQUITY CURVE
-    ax1 = fig.add_subplot(gs[0, :])
-    ax1.plot(df_trades['DateTime'], df_trades['Balance'], color='green', linewidth=2)
-    ax1.set_title(f"Equity Curve (Final Balance: ${df_trades['Balance'].iloc[-1]:,.2f})", fontsize=14)
-    ax1.set_ylabel("Balance ($)")
-
-    # 2. STRATEGY vs SP500
-    ax_bench = fig.add_subplot(gs[1, :])
-    if has_benchmark:
-        ax_bench.plot(strategy_pct.index, strategy_pct, color='green', label='My Strategy', linewidth=2)
-        ax_bench.plot(sp500_pct.index, sp500_pct, color='gray', linestyle='--', label='S&P 500', alpha=0.8)
-
-        ax_bench.fill_between(strategy_pct.index, strategy_pct, sp500_pct,
-                              where=(strategy_pct >= sp500_pct), interpolate=True, color='green', alpha=0.1)
-        ax_bench.fill_between(strategy_pct.index, strategy_pct, sp500_pct,
-                              where=(strategy_pct < sp500_pct), interpolate=True, color='red', alpha=0.1)
-
-        ax_bench.set_title(f"Relative Performance vs S&P 500 (Correlation: {correlation:.2f})", fontsize=14)
-        ax_bench.set_ylabel("Return (%)")
-        ax_bench.legend()
-    else:
-        ax_bench.text(0.5, 0.5, "Benchmark Data Unavailable (Check Date Range)", ha='center')
-
-    # 3. PROFIT DISTRIBUTION
-    ax2 = fig.add_subplot(gs[2, 0])
-    sns.histplot(df_trades['Profit'], kde=True, ax=ax2, color='blue')
-    ax2.axvline(0, color='red', linestyle='--')
-    ax2.set_title("Distribution of Trade Profits", fontsize=12)
-
-    # 4. MACRO SCORE IMPACT (Fixed Seaborn Warning)
-    ax3 = fig.add_subplot(gs[2, 1])
-    if 'Macro_Score' in df_trades.columns:
-        # FIX 3: Added hue='Macro_Score' and legend=False
-        sns.boxplot(x='Macro_Score', y='Profit', data=df_trades, ax=ax3, hue='Macro_Score', palette="coolwarm",
-                    legend=False)
-        ax3.set_title("Profit vs. Macro Score", fontsize=12)
-    else:
-        ax3.text(0.5, 0.5, "No Macro_Score Data", ha='center')
-
-    # 5. DRAWDOWN CHART
-    ax4 = fig.add_subplot(gs[2, 2])
-    running_max = df_trades['Balance'].cummax()
-    drawdown = (df_trades['Balance'] - running_max) / running_max * 100
-    ax4.fill_between(df_trades['DateTime'], drawdown, 0, color='red', alpha=0.3)
-    ax4.set_title(f"Drawdown % (Max: {drawdown.min():.2f}%)", fontsize=12)
-
-    # 6. HEATMAP
-    ax5 = fig.add_subplot(gs[3, 0])
-    pivot = df_trades.pivot_table(index='DayOfWeek', columns='Hour', values='Profit', aggfunc='sum')
-    pivot = pivot.reindex(days_order)
-    sns.heatmap(pivot, cmap="RdYlGn", center=0, ax=ax5, annot=False)
-    ax5.set_title("Profit Heatmap (Day vs Hour)", fontsize=12)
-
-    # 7. CUMULATIVE WINS vs LOSSES
-    ax6 = fig.add_subplot(gs[3, 1])
-    wins = df_trades[df_trades['Profit'] > 0]['Profit'].cumsum().reset_index(drop=True)
-    losses = df_trades[df_trades['Profit'] < 0]['Profit'].cumsum().reset_index(drop=True)
-    ax6.plot(wins, color='green', label='Cumulative Wins')
-    ax6.plot(losses, color='red', label='Cumulative Losses')
-    ax6.legend()
-    ax6.set_title("Win/Loss Separation", fontsize=12)
-
-    # 8. ROLLING WIN RATE
-    ax7 = fig.add_subplot(gs[3, 2])
-    df_trades['Win'] = np.where(df_trades['Profit'] > 0, 1, 0)
-    df_trades['Rolling_WR'] = df_trades['Win'].rolling(window=20).mean()
-    ax7.plot(df_trades['Rolling_WR'], color='purple')
-    ax7.axhline(0.5, color='gray', linestyle='--')
-    ax7.set_ylim(0, 1)
-    ax7.set_title("Rolling Win Rate (20 Trades)", fontsize=12)
-
-    plt.tight_layout()
-    plt.show()
-
-
 
 
 # --- PART 3: STRATEGY WITH FUNDAMENTAL FILTER ---
@@ -337,10 +162,10 @@ def run_strategy_with_macro(df, symbol):
 
             trade_allowed = False
 
-            if symbol == "BRENTCMDUSD":
-                if tech_direction == "Sell" and macro_score <= 0:
+            if symbol == "XAUUSD":
+                if tech_direction == "Buy" and macro_score <= 0:
                     trade_allowed = True  # Buy Gold only if USD is Weak or Neutral
-                elif tech_direction == "Buy" and macro_score >= 0:
+                elif tech_direction == "Sell" and macro_score >= 0:
                     trade_allowed = True  # Sell Gold only if USD is Strong or Neutral
             else:
                 # Default (no filter for other pairs in this example)
@@ -441,34 +266,15 @@ if __name__ == "__main__":
             results = run_strategy_with_macro(df_combined, symbol)
 
             if not results.empty:
-                wins = results[results['Profit'] > 0]['Profit'].count()
-                losses = results[results['Profit'] < 0]['Profit'].count()
-                total_trades = len(results)
-                avg_trade_net_profit = results['Profit'].mean()
-                avg_losses_trades = results[results["Profit"] < 0]['Profit'].mean()
-                avg_wins_trades = results[results["Profit"] > 0]['Profit'].mean()
-                win_persentage = wins / total_trades * 100
-                losses_persentage = losses / total_trades * 100
-                tharp_expectancy = (avg_wins_trades * win_persentage + avg_losses_trades * losses_persentage) / (
-                    -avg_losses_trades)
                 print(f"Total Trades: {len(results)}")
-                print(f"Total Returns: {((results['Balance'].iloc[-1] - INITIAL_CAPITAL) / INITIAL_CAPITAL) * 100:.2f}%")
                 print(f"Final Balance: ${results.iloc[-1]['Balance']}")
                 print(f"Win Rate: {round(results[results['Profit'] > 0].shape[0] / len(results) * 100, 2)}%")
                 print(f"Wins:{results[results['Profit'] > 0]['Profit'].count()}")
                 print(f"Losses:{results[results['Profit'] < 0]['Profit'].count()}")
                 print(f"Max Drawdown: {(INITIAL_CAPITAL - results["Balance"].min())/100}%")
                 print(f"Sharpe Ratio: {round(results['Profit'].mean() / results['Profit'].std() * np.sqrt(252), 4)}")
-                print(f"Tharp Expectancy: {round(tharp_expectancy, 2)}")
-                print(f"Avg Net Trade Profit: ${avg_trade_net_profit}")
-
                 # Show correlation between score and trades
                 print("Trades by Macro Sentiment:")
                 print(results.groupby('Macro_Score')['Profit'].count())
-                output_filename = f"{symbol}_{tf}_trades.csv"
-                results.to_csv(os.path.join("/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results", output_filename), index=False)
             else:
                 print("No trades.")
-
-            perform_advanced_eda(results)
-

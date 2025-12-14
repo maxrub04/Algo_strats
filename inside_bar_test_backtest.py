@@ -194,6 +194,12 @@ def run_strategy_detailed(df, symbol, timeframe):
     max_drawdown = (INITIAL_CAPITAL - np.min(df_backtest_trades["Balance"]))/100
     daily_returns = df_backtest_trades['Balance'].pct_change()
     sharpe_ratio = (daily_returns.mean() / daily_returns.std()) * np.sqrt(252)
+    avg_trade_net_profit = df_backtest_trades['Profit'].mean()
+    avg_losses_trades =  df_backtest_trades[df_backtest_trades["Profit"] < 0]['Profit'].mean()
+    avg_wins_trades = df_backtest_trades[df_backtest_trades["Profit"] > 0]['Profit'].mean()
+    win_persentage=wins/total_trades*100
+    losses_persentage=losses/total_trades*100
+    tharp_expectancy = (avg_wins_trades * win_persentage +avg_losses_trades*  losses_persentage)/(-avg_losses_trades)
 
     print(
         f"{symbol} Summary: Total Trades={total_trades}, "
@@ -202,7 +208,9 @@ def run_strategy_detailed(df, symbol, timeframe):
         f"Win Rate={win_rate:.2f}%, "
         f"Sharpe Ratio={sharpe_ratio:.2f},"
         f"Final Balance=${final_balance:.2f},"
-        f" Max Drawdown=-{max_drawdown:.2f}%")
+        f" Max Drawdown=-{max_drawdown:.2f}%"
+        f"Avg Trade Net Profit=${avg_trade_net_profit:.2f},"
+        f"Tharp Expectancy={tharp_expectancy:.2f}%")
 
     return df_backtest_trades
 
