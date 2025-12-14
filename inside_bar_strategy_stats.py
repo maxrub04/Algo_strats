@@ -7,8 +7,8 @@ import numpy as np
 plt.style.use('ggplot')
 
 # --- DATE RANGE ---
-start_date = pd.to_datetime("2010-09-20")
-end_date = pd.to_datetime("2014-09-20")
+start_date = pd.to_datetime("2013-01-20")
+end_date = pd.to_datetime("2016-04-20")
 
 
 def plot_performance(trades_df, initial_capital=10000):
@@ -97,14 +97,14 @@ def plot_performance(trades_df, initial_capital=10000):
 
 if __name__ == "__main__":
 
-    trades = pd.read_csv('/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_trades/BRENTCMDUSD_1H_Report.csv')
+    trades = pd.read_csv('/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results/BRENTCMDUSD_4h_trades.csv')
 
-    trades["OpenTime"] = pd.to_datetime(trades["OpenTime"])
+    trades["Date"] = pd.to_datetime(trades["Date"])
 
     """trades = trades[(trades["OpenTime"] >= start_date) &
                               (trades["OpenTime"] <= end_date)].reset_index(drop=True)"""
 
-    dates = trades["OpenTime"]
+    dates = trades["Date"]
     profits = trades["Profit"]
 
 

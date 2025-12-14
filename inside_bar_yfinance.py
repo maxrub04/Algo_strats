@@ -5,7 +5,7 @@ import os
 
 
 SYMBOLS = ["JPY=X", "GC=F", "BZ=F"]
-TIMEFRAMES = ["1h", "4h", "1d"]
+TIMEFRAMES = ["1d"]
 RISK_REWARD = 2.0
 INITIAL_CAPITAL = 10000.0
 RISK_PERCENT = 1.0
