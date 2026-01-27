@@ -1,0 +1,477 @@
+2025-12-28 19:12:03,222 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:12:03,222 - INFO - Disconnecting
+2025-12-28 19:12:03,222 - ERROR - API connection failed: ConnectionRefusedError(61, "Connect call failed ('127.0.0.1', 7497)")
+2025-12-28 19:12:03,222 - ERROR - Make sure API port on TWS/IBG is open
+2025-12-28 19:12:03,222 - ERROR - ❌ Connection failed: [Errno 61] Connect call failed ('127.0.0.1', 7497)
+2025-12-28 19:13:18,898 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:13:18,899 - INFO - Connected
+2025-12-28 19:13:19,043 - INFO - Logged on to server version 176
+2025-12-28 19:13:19,059 - INFO - API connection ready
+2025-12-28 19:13:19,066 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:13:19,067 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:13:19,067 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:13:19,067 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:13:19,067 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:13:19,067 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:13:19,067 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:13:19,067 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:13:19,067 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:13:19,067 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:13:19,580 - INFO - Synchronization complete
+2025-12-28 19:13:19,580 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:13:19,771 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:13:19,772 - WARNING - Unknown contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:13:19,772 - INFO - Contract created: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:13:19,773 - INFO - 🚀 Starting live strategy for BRENTCMDUSD
+2025-12-28 19:13:19,773 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:13:19,776 - ERROR - Error 321, reqId 4: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:13:19,777 - WARNING - No historical data received
+2025-12-28 19:13:19,783 - WARNING - No data received, retrying...
+2025-12-28 19:14:19,805 - ERROR - Error 321, reqId 5: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:14:19,807 - WARNING - No historical data received
+2025-12-28 19:14:19,844 - WARNING - No data received, retrying...
+2025-12-28 19:15:08,566 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:15:08,567 - INFO - Disconnecting from 127.0.0.1:7497, 292 B sent in 11 messages, 14.6 kB received in 316 messages, session time 110 s.
+2025-12-28 19:15:08,567 - INFO - Disconnecting
+2025-12-28 19:15:08,567 - INFO - Disconnected from IBKR
+2025-12-28 19:15:58,699 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:15:58,700 - INFO - Connected
+2025-12-28 19:15:58,732 - INFO - Logged on to server version 176
+2025-12-28 19:15:58,734 - INFO - API connection ready
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:jfarm
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:15:58,734 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:15:58,734 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:15:58,734 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:15:58,734 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:15:58,734 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:15:59,136 - INFO - Synchronization complete
+2025-12-28 19:15:59,137 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:15:59,313 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:15:59,313 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:15:59,313 - INFO - Contract created: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:15:59,313 - INFO - 🚀 Starting live strategy for BTCUSD1
+2025-12-28 19:15:59,313 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:15:59,516 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:15:59,517 - WARNING - No historical data received
+2025-12-28 19:15:59,522 - WARNING - No data received, retrying...
+2025-12-28 19:16:59,718 - ERROR - Error 200, reqId 5: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:16:59,720 - WARNING - No historical data received
+2025-12-28 19:16:59,727 - WARNING - No data received, retrying...
+2025-12-28 19:17:59,748 - INFO - Warning 2108, reqId -1: Market data farm connection is inactive but should be available upon demand.jfarm
+2025-12-28 19:17:59,750 - INFO - Warning 2108, reqId -1: Market data farm connection is inactive but should be available upon demand.jfarm
+2025-12-28 19:17:59,920 - ERROR - Error 200, reqId 6: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD1', exchange='SMART', currency='USD')
+2025-12-28 19:17:59,920 - WARNING - No historical data received
+2025-12-28 19:17:59,937 - WARNING - No data received, retrying...
+2025-12-28 19:18:42,249 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:18:42,253 - INFO - Disconnecting from 127.0.0.1:7497, 390 B sent in 12 messages, 15.0 kB received in 322 messages, session time 164 s.
+2025-12-28 19:18:42,253 - INFO - Disconnecting
+2025-12-28 19:18:42,255 - INFO - Disconnected from IBKR
+2025-12-28 19:19:46,170 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:19:46,171 - INFO - Connected
+2025-12-28 19:19:46,200 - INFO - Logged on to server version 176
+2025-12-28 19:19:46,205 - INFO - API connection ready
+2025-12-28 19:19:46,205 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:19:46,205 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:19:46,206 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:19:46,206 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:19:46,206 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:19:46,206 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:19:46,206 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:19:46,710 - INFO - Synchronization complete
+2025-12-28 19:19:46,711 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:19:46,886 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:19:46,887 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:19:46,887 - INFO - Contract created: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:19:46,887 - INFO - 🚀 Starting live strategy for BTC
+2025-12-28 19:19:46,887 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:19:47,062 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:19:47,064 - WARNING - No historical data received
+2025-12-28 19:19:47,083 - WARNING - No data received, retrying...
+2025-12-28 19:19:59,267 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:19:59,272 - INFO - Disconnecting from 127.0.0.1:7497, 234 B sent in 10 messages, 14.6 kB received in 317 messages, session time 13.1 s.
+2025-12-28 19:19:59,272 - INFO - Disconnecting
+2025-12-28 19:19:59,274 - INFO - Disconnected from IBKR
+2025-12-28 19:20:00,707 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:20:00,707 - INFO - Connected
+2025-12-28 19:20:00,738 - INFO - Logged on to server version 176
+2025-12-28 19:20:00,740 - INFO - API connection ready
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:20:00,741 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:20:00,741 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:20:00,741 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:20:00,741 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:20:00,741 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:20:01,250 - INFO - Synchronization complete
+2025-12-28 19:20:01,250 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:20:01,470 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD', exchange='SMART', currency='USD')
+2025-12-28 19:20:01,470 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='BTCUSD', exchange='SMART', currency='USD')
+2025-12-28 19:20:01,470 - INFO - Contract created: Contract(secType='CMDTY', symbol='BTCUSD', exchange='SMART', currency='USD')
+2025-12-28 19:20:01,471 - INFO - 🚀 Starting live strategy for BTCUSD
+2025-12-28 19:20:01,471 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:20:01,645 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTCUSD', exchange='SMART', currency='USD')
+2025-12-28 19:20:01,646 - WARNING - No historical data received
+2025-12-28 19:20:01,654 - WARNING - No data received, retrying...
+2025-12-28 19:21:01,619 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:21:01,621 - INFO - Disconnecting from 127.0.0.1:7497, 240 B sent in 10 messages, 14.6 kB received in 317 messages, session time 60.9 s.
+2025-12-28 19:21:01,621 - INFO - Disconnecting
+2025-12-28 19:21:01,625 - INFO - Disconnected from IBKR
+2025-12-28 19:21:21,578 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:21:21,578 - INFO - Connected
+2025-12-28 19:21:21,630 - INFO - Logged on to server version 176
+2025-12-28 19:21:21,636 - INFO - API connection ready
+2025-12-28 19:21:21,638 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:21:21,638 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:21:21,638 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:21:21,639 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:21:21,639 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:21:21,639 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:21:21,639 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:21:21,639 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:21:21,639 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:21:21,639 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:21:21,639 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:21:21,639 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:21:22,040 - INFO - Synchronization complete
+2025-12-28 19:21:22,040 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:21:22,210 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:21:22,211 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:21:22,211 - INFO - Contract created: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:21:22,211 - INFO - 🚀 Starting live strategy for BTC
+2025-12-28 19:21:22,211 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:21:22,381 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BTC', exchange='SMART', currency='USD')
+2025-12-28 19:21:22,381 - WARNING - No historical data received
+2025-12-28 19:21:22,386 - WARNING - No data received, retrying...
+2025-12-28 19:21:45,480 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:21:45,482 - INFO - Disconnecting from 127.0.0.1:7497, 234 B sent in 10 messages, 14.6 kB received in 317 messages, session time 23.9 s.
+2025-12-28 19:21:45,482 - INFO - Disconnecting
+2025-12-28 19:21:45,483 - INFO - Disconnected from IBKR
+2025-12-28 19:21:46,327 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:21:46,335 - INFO - Connected
+2025-12-28 19:21:46,362 - INFO - Logged on to server version 176
+2025-12-28 19:21:46,367 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:21:46,368 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:21:46,370 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:21:46,370 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:21:46,370 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:21:46,370 - INFO - API connection ready
+2025-12-28 19:21:46,370 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:21:46,370 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:21:46,782 - INFO - Synchronization complete
+2025-12-28 19:21:46,783 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:21:46,957 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:21:46,959 - WARNING - Unknown contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:21:46,959 - INFO - Contract created: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:21:46,960 - INFO - 🚀 Starting live strategy for BRENTCMDUSD
+2025-12-28 19:21:46,960 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:21:46,966 - ERROR - Error 321, reqId 4: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:21:46,966 - WARNING - No historical data received
+2025-12-28 19:21:46,986 - WARNING - No data received, retrying...
+2025-12-28 19:22:08,709 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:22:08,710 - INFO - Disconnecting from 127.0.0.1:7497, 226 B sent in 10 messages, 14.6 kB received in 317 messages, session time 22.4 s.
+2025-12-28 19:22:08,710 - INFO - Disconnecting
+2025-12-28 19:22:08,711 - INFO - Disconnected from IBKR
+2025-12-28 19:22:09,736 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:22:09,738 - INFO - Connected
+2025-12-28 19:22:09,798 - INFO - Logged on to server version 176
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:22:09,805 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:22:09,805 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:22:09,805 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:22:09,805 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:22:09,805 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:22:09,807 - INFO - API connection ready
+2025-12-28 19:22:10,226 - INFO - Synchronization complete
+2025-12-28 19:22:10,227 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:22:10,406 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Forex('XAUUSD', exchange='IDEALPRO')
+2025-12-28 19:22:10,407 - WARNING - Unknown contract: Forex('XAUUSD', exchange='IDEALPRO')
+2025-12-28 19:22:10,407 - INFO - Contract created: Forex('XAUUSD', exchange='IDEALPRO')
+2025-12-28 19:22:10,408 - INFO - 🚀 Starting live strategy for XAUUSD
+2025-12-28 19:22:10,408 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:22:10,579 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Forex('XAUUSD', exchange='IDEALPRO')
+2025-12-28 19:22:10,580 - WARNING - No historical data received
+2025-12-28 19:22:10,585 - WARNING - No data received, retrying...
+2025-12-28 19:22:23,081 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:22:23,082 - INFO - Disconnecting from 127.0.0.1:7497, 238 B sent in 10 messages, 14.6 kB received in 317 messages, session time 13.3 s.
+2025-12-28 19:22:23,082 - INFO - Disconnecting
+2025-12-28 19:22:23,082 - INFO - Disconnected from IBKR
+2025-12-28 19:22:23,770 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:22:23,771 - INFO - Connected
+2025-12-28 19:22:23,806 - INFO - Logged on to server version 176
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:22:23,818 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:22:23,818 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:22:23,818 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:22:23,818 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:22:23,819 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:22:23,819 - INFO - API connection ready
+2025-12-28 19:22:24,231 - INFO - Synchronization complete
+2025-12-28 19:22:24,231 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:22:24,406 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='XAU', exchange='SMART', currency='USD')
+2025-12-28 19:22:24,406 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='XAU', exchange='SMART', currency='USD')
+2025-12-28 19:22:24,406 - INFO - Contract created: Contract(secType='CMDTY', symbol='XAU', exchange='SMART', currency='USD')
+2025-12-28 19:22:24,406 - INFO - 🚀 Starting live strategy for XAU
+2025-12-28 19:22:24,406 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:22:24,576 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='XAU', exchange='SMART', currency='USD')
+2025-12-28 19:22:24,576 - WARNING - No historical data received
+2025-12-28 19:22:24,578 - WARNING - No data received, retrying...
+2025-12-28 19:22:39,214 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:22:39,215 - INFO - Disconnecting from 127.0.0.1:7497, 234 B sent in 10 messages, 14.6 kB received in 317 messages, session time 15.4 s.
+2025-12-28 19:22:39,215 - INFO - Disconnecting
+2025-12-28 19:22:39,217 - INFO - Disconnected from IBKR
+2025-12-28 19:22:39,887 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:22:39,888 - INFO - Connected
+2025-12-28 19:22:39,903 - INFO - Logged on to server version 176
+2025-12-28 19:22:39,906 - INFO - API connection ready
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:22:39,906 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:22:39,906 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:22:39,906 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:22:39,906 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:22:39,906 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:22:40,313 - INFO - Synchronization complete
+2025-12-28 19:22:40,313 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:22:40,485 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:22:40,485 - WARNING - Unknown contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:22:40,485 - INFO - Contract created: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:22:40,486 - INFO - 🚀 Starting live strategy for BRENTCMDUSD
+2025-12-28 19:22:40,486 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:22:40,487 - ERROR - Error 321, reqId 4: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:22:40,487 - WARNING - No historical data received
+2025-12-28 19:22:40,488 - WARNING - No data received, retrying...
+2025-12-28 19:23:40,530 - ERROR - Error 321, reqId 5: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:23:40,533 - WARNING - No historical data received
+2025-12-28 19:23:40,546 - WARNING - No data received, retrying...
+2025-12-28 19:24:40,576 - ERROR - Error 321, reqId 6: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:24:40,578 - WARNING - No historical data received
+2025-12-28 19:24:40,586 - WARNING - No data received, retrying...
+2025-12-28 19:25:22,708 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:25:22,712 - INFO - Disconnecting from 127.0.0.1:7497, 358 B sent in 12 messages, 14.8 kB received in 319 messages, session time 163 s.
+2025-12-28 19:25:22,712 - INFO - Disconnecting
+2025-12-28 19:25:22,716 - INFO - Disconnected from IBKR
+2025-12-28 19:25:24,230 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:25:24,231 - INFO - Connected
+2025-12-28 19:25:24,277 - INFO - Logged on to server version 176
+2025-12-28 19:25:24,280 - INFO - API connection ready
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:25:24,280 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:25:24,280 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:25:24,280 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:25:24,280 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:25:24,280 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:25:24,781 - INFO - Synchronization complete
+2025-12-28 19:25:24,781 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:25:24,955 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:25:24,955 - WARNING - Unknown contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:25:24,955 - INFO - Contract created: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:25:24,956 - INFO - 🚀 Starting live strategy for BRENTCMDUSD
+2025-12-28 19:25:24,956 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:25:24,957 - ERROR - Error 321, reqId 4: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:25:24,957 - WARNING - No historical data received
+2025-12-28 19:25:24,961 - WARNING - No data received, retrying...
+2025-12-28 19:26:24,978 - ERROR - Error 321, reqId 5: Error validating request.-'bL' : cause - Please enter a local symbol or an expiry, contract: Contract(secType='FUT', symbol='BRN', exchange='IPE', currency='USD')
+2025-12-28 19:26:24,979 - WARNING - No historical data received
+2025-12-28 19:26:24,983 - WARNING - No data received, retrying...
+2025-12-28 19:27:14,124 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:27:14,127 - INFO - Disconnecting from 127.0.0.1:7497, 292 B sent in 11 messages, 14.7 kB received in 318 messages, session time 110 s.
+2025-12-28 19:27:14,127 - INFO - Disconnecting
+2025-12-28 19:27:14,127 - INFO - Disconnected from IBKR
+2025-12-28 19:30:30,996 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-28 19:30:30,996 - INFO - Connected
+2025-12-28 19:30:31,040 - INFO - Logged on to server version 176
+2025-12-28 19:30:31,046 - INFO - API connection ready
+2025-12-28 19:30:31,047 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt
+2025-12-28 19:30:31,048 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-28 19:30:31,048 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-28 19:30:31,048 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-28 19:30:31,048 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-28 19:30:31,048 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-28 19:30:31,546 - INFO - Synchronization complete
+2025-12-28 19:30:31,547 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-28 19:30:31,726 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-28 19:30:31,726 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-28 19:30:31,726 - INFO - Contract created: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-28 19:30:31,727 - INFO - 🚀 Starting live strategy for CL
+2025-12-28 19:30:31,727 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-28 19:30:31,897 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-28 19:30:31,897 - WARNING - No historical data received
+2025-12-28 19:30:31,899 - WARNING - No data received, retrying...
+2025-12-28 19:30:50,651 - INFO - ⏹️ Strategy stopped by user
+2025-12-28 19:30:50,652 - INFO - Disconnecting from 127.0.0.1:7497, 232 B sent in 10 messages, 14.6 kB received in 317 messages, session time 19.7 s.
+2025-12-28 19:30:50,652 - INFO - Disconnecting
+2025-12-28 19:30:50,653 - INFO - Disconnected from IBKR
+2025-12-29 16:38:06,635 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-29 16:38:06,636 - INFO - Connected
+2025-12-29 16:38:06,658 - INFO - Logged on to server version 176
+2025-12-29 16:38:06,661 - INFO - API connection ready
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:hfarm
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:jfarm
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-29 16:38:06,661 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-29 16:38:06,661 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-29 16:38:06,661 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-29 16:38:06,661 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-29 16:38:06,661 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-29 16:38:07,162 - INFO - Synchronization complete
+2025-12-29 16:38:07,162 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-29 16:38:07,340 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:38:07,340 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:38:07,340 - INFO - Contract created: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:38:07,340 - INFO - 🚀 Starting live strategy for CL
+2025-12-29 16:38:07,340 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-29 16:38:07,560 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:38:07,560 - WARNING - No historical data received
+2025-12-29 16:38:07,581 - WARNING - No data received, retrying...
+2025-12-29 16:39:00,856 - INFO - ⏹️ Strategy stopped by user
+2025-12-29 16:39:00,857 - INFO - Disconnecting from 127.0.0.1:7497, 232 B sent in 10 messages, 14.6 kB received in 318 messages, session time 54.2 s.
+2025-12-29 16:39:00,857 - INFO - Disconnecting
+2025-12-29 16:39:00,858 - INFO - Disconnected from IBKR
+2025-12-29 16:39:01,875 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-29 16:39:01,882 - INFO - Connected
+2025-12-29 16:39:01,897 - INFO - Logged on to server version 176
+2025-12-29 16:39:01,903 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:hfarm
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:jfarm
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-29 16:39:01,904 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-29 16:39:01,904 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-29 16:39:01,904 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-29 16:39:01,904 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-29 16:39:01,904 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-29 16:39:01,905 - INFO - API connection ready
+2025-12-29 16:39:02,322 - INFO - Synchronization complete
+2025-12-29 16:39:02,325 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-29 16:39:02,503 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:39:02,503 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:39:02,503 - INFO - Contract created: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:39:02,503 - INFO - 🚀 Starting live strategy for BRENT
+2025-12-29 16:39:02,503 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-29 16:39:02,674 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:39:02,674 - WARNING - No historical data received
+2025-12-29 16:39:02,676 - WARNING - No data received, retrying...
+2025-12-29 16:40:02,903 - ERROR - Error 200, reqId 5: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:40:02,907 - WARNING - No historical data received
+2025-12-29 16:40:02,937 - WARNING - No data received, retrying...
+2025-12-29 16:41:03,139 - ERROR - Error 200, reqId 6: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='BRENT', exchange='SMART', currency='USD')
+2025-12-29 16:41:03,142 - WARNING - No historical data received
+2025-12-29 16:41:03,159 - WARNING - No data received, retrying...
+2025-12-29 16:41:16,487 - INFO - ⏹️ Strategy stopped by user
+2025-12-29 16:41:16,490 - INFO - Disconnecting from 127.0.0.1:7497, 382 B sent in 12 messages, 17.4 kB received in 376 messages, session time 135 s.
+2025-12-29 16:41:16,490 - INFO - Disconnecting
+2025-12-29 16:41:16,492 - INFO - Disconnected from IBKR
+2025-12-29 16:41:18,524 - INFO - Connecting to 127.0.0.1:7497 with clientId 1...
+2025-12-29 16:41:18,526 - INFO - Connected
+2025-12-29 16:41:18,573 - INFO - Logged on to server version 176
+2025-12-29 16:41:18,577 - INFO - API connection ready
+2025-12-29 16:41:18,582 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:hfarm
+2025-12-29 16:41:18,582 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarmnj
+2025-12-29 16:41:18,583 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:cashfarm
+2025-12-29 16:41:18,583 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfuture
+2025-12-29 16:41:18,583 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usopt.nj
+2025-12-29 16:41:18,583 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:jfarm
+2025-12-29 16:41:18,583 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm.nj
+2025-12-29 16:41:18,584 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:eufarm
+2025-12-29 16:41:18,584 - INFO - Warning 2104, reqId -1: Market data farm connection is OK:usfarm
+2025-12-29 16:41:18,584 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:euhmds
+2025-12-29 16:41:18,584 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:fundfarm
+2025-12-29 16:41:18,584 - INFO - Warning 2106, reqId -1: HMDS data farm connection is OK:ushmds
+2025-12-29 16:41:18,584 - INFO - Warning 2158, reqId -1: Sec-def data farm connection is OK:secdefil
+2025-12-29 16:41:18,990 - INFO - Synchronization complete
+2025-12-29 16:41:18,991 - INFO - ✅ Connected to IBKR on port 7497
+2025-12-29 16:41:19,164 - ERROR - Error 200, reqId 3: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:41:19,165 - WARNING - Unknown contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:41:19,165 - INFO - Contract created: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:41:19,165 - INFO - 🚀 Starting live strategy for CL
+2025-12-29 16:41:19,165 - INFO - Risk: 1.0% | R:R = 2.75
+2025-12-29 16:41:19,337 - ERROR - Error 200, reqId 4: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:41:19,337 - WARNING - No historical data received
+2025-12-29 16:41:19,340 - WARNING - No data received, retrying...
+2025-12-29 16:42:19,583 - ERROR - Error 200, reqId 5: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:42:19,591 - WARNING - No historical data received
+2025-12-29 16:42:19,626 - WARNING - No data received, retrying...
+2025-12-29 16:43:19,895 - ERROR - Error 200, reqId 6: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:43:19,901 - WARNING - No historical data received
+2025-12-29 16:43:19,927 - WARNING - No data received, retrying...
+2025-12-29 16:44:20,176 - ERROR - Error 200, reqId 7: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:44:20,177 - WARNING - No historical data received
+2025-12-29 16:44:20,186 - WARNING - No data received, retrying...
+2025-12-29 16:45:20,399 - ERROR - Error 200, reqId 8: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:45:20,404 - WARNING - No historical data received
+2025-12-29 16:45:20,423 - WARNING - No data received, retrying...
+2025-12-29 16:46:20,674 - ERROR - Error 200, reqId 9: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:46:20,676 - WARNING - No historical data received
+2025-12-29 16:46:20,680 - WARNING - No data received, retrying...
+2025-12-29 16:47:20,886 - ERROR - Error 200, reqId 10: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:47:20,890 - WARNING - No historical data received
+2025-12-29 16:47:20,909 - WARNING - No data received, retrying...
+2025-12-29 16:48:21,109 - ERROR - Error 200, reqId 11: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:48:21,112 - WARNING - No historical data received
+2025-12-29 16:48:21,117 - WARNING - No data received, retrying...
+2025-12-29 16:49:21,339 - ERROR - Error 200, reqId 12: No security definition has been found for the request, contract: Contract(secType='CMDTY', symbol='CL', exchange='SMART', currency='USD')
+2025-12-29 16:49:21,343 - WARNING - No historical data received
+2025-12-29 16:49:21,381 - WARNING - No data received, retrying...
+2025-12-29 16:49:28,775 - INFO - ⏹️ Strategy stopped by user
+2025-12-29 16:49:28,821 - INFO - Disconnecting from 127.0.0.1:7497, 787 B sent in 18 messages, 22.9 kB received in 490 messages, session time 490 s.
+2025-12-29 16:49:28,824 - INFO - Disconnecting
+2025-12-29 16:49:28,847 - INFO - Disconnected from IBKR
