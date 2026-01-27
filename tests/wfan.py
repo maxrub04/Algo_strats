@@ -7,7 +7,7 @@ import seaborn as sns
 from itertools import product
 
 # --- CONFIGURATION ---
-FRED_API_KEY = ''
+FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 SYMBOL = "BRENTCMDUSD"
 TIMEFRAME = "4h"
@@ -247,6 +247,9 @@ def run_walk_forward():
     print("=" * 60)
     if wfa_results:
         all_wfa_trades = pd.concat(wfa_results).sort_values('Date').reset_index(drop=True)
+        output_filename = f"wfa_results_{SYMBOL}_{TIMEFRAME}_trades.csv"
+        all_wfa_trades.to_csv(os.path.join("/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results",
+                                    output_filename), index=False)
 
         # Calculate WFA Equity Curve
         all_wfa_trades['Balance'] = INITIAL_CAPITAL + all_wfa_trades['Profit'].cumsum()

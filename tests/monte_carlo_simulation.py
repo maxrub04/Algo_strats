@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 
 # --- CONFIGURATION ---
-CSV_PATH = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results"  # Ensure this path is correct
+CSV_PATH = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results/BRENTCMDUSD_4h_trades.csv"  # Ensure this path is correct
 STARTING_EQUITY = 10000.0
 NUM_SIMULATIONS = 2000
 TRADES_PER_YEAR = 100
@@ -39,13 +39,13 @@ def run_monte_carlo(csv_path, start_equity, num_sims, horizon_trades):
     final_equities = []
     max_drawdowns = []
     returns_pct = []
-    ret_dd_ratios = []  # <--- NEW: Storage for Return/DD
+    ret_dd_ratios = []
     is_ruined_count = 0
 
     all_curves = []
 
     # 3. Simulation Loop
-    for _ in range(num_sims):
+    for i in range(num_sims):
         # A. Random Sample
         daily_pnl = np.random.choice(pnl_pool, size=horizon_trades, replace=True)
 
@@ -79,7 +79,7 @@ def run_monte_carlo(csv_path, start_equity, num_sims, horizon_trades):
         returns_pct.append(ret_pct)
         ret_dd_ratios.append(rd_ratio)  # <--- NEW: Store it
 
-        if _ < 100:
+        if i < 100:
             all_curves.append(equity_curve)
 
     # 4. Generate Statistics

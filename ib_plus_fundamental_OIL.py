@@ -8,19 +8,24 @@ import seaborn as sns
 
 # --- CONFIGURATION ---
 # 1. API KEYS & PATHS
-FRED_API_KEY = ''  # <-- INSERT KEY HERE
+FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'  # <-- INSERT KEY HERE
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 
 # 2. STRATEGY SETTINGS
 SYMBOLS = ["BRENTCMDUSD"] #SO 2010-2018 GOLD not bad, 2020+ good for oil
 TIMEFRAMES = ["4h"]
-RISK_REWARD = 2.0
+RISK_REWARD = 2.75
 INITIAL_CAPITAL = 10000.0
 RISK_PERCENT = 1.0
+ATR_PERIOD = 14
+ATR_TP_MULTIPLIER = 3.0
+CONTRACT_SIZE = 1000
+COMMISSION_PER_CONTRACT = 2.50
+SLIPPAGE_POINTS = 0.02
 
 # 3. DATE RANGE
-start_date = pd.to_datetime("2013-01-20")
-end_date = pd.to_datetime("2016-04-20")
+start_date = pd.to_datetime("2020-01-20")
+end_date = pd.to_datetime("2024-04-20")
 
 
 # --- PART 1: MACRO DATA PROCESSING ---
@@ -82,7 +87,7 @@ class MacroProcessor:
         #df_macro.loc[df_macro['Yield_Change'] < 0, 'USD_Score'] -= 1
 
 
-        # Rule 3: Tips (The big killer for Gold)
+        # Rule 3: Tips
         df_macro["TIPS_10Y_Real_Yield"] = df_macro["TIPS_10Y_Real_Yield"].diff()
         df_macro.loc[df_macro["TIPS_10Y_Real_Yield"] > 0, "USD_Score"] += 1
         df_macro.loc[df_macro["TIPS_10Y_Real_Yield"] < 0, "USD_Score"] -= 1
@@ -93,8 +98,8 @@ class MacroProcessor:
         df_macro["Exports"] = df_macro["Exports"].diff()
         df_macro.loc[(df_macro["Imports"] < 0) & (df_macro["Exports"] >0), "USD_Score"] += 1 #deflation
         df_macro.loc[(df_macro["Imports"] > 0) & (df_macro["Exports"] <0), "USD_Score"] -= 1 #inflation
-        # Rule 5: Federal Balance
 
+        # Rule 5: Federal Balance
         df_macro["Trade_Balance"] = df_macro["Trade_Balance"].diff()
         df_macro.loc[df_macro["Trade_Balance"] > 0, "USD_Score"] += 1
         df_macro.loc[df_macro["Trade_Balance"] < 0, "USD_Score"] -= 1
@@ -298,6 +303,8 @@ def perform_advanced_eda(df_trades):
 def run_strategy_with_macro(df, symbol):
     trades = []
 
+    df = calculate_atr(df, period=ATR_PERIOD)
+
     # Pre-calc Technicals
     df["Prev_High"] = df["High"].shift(1)
     df["Prev_Low"] = df["Low"].shift(1)
@@ -308,6 +315,10 @@ def run_strategy_with_macro(df, symbol):
     n = len(df)
 
     while i < n - 1:
+        if pd.isna(df.loc[i, 'ATR']):
+            i += 1
+            continue
+
         # --- 1. TECHNICAL SIGNAL ---
         is_inside = df.loc[i - 1, "Is_Inside_Bar"]
 
@@ -349,15 +360,20 @@ def run_strategy_with_macro(df, symbol):
             # --- 3. EXECUTION ---
             if tech_direction != "" and trade_allowed:
                 risk_dist = abs(entry_price - stop_loss)
+                current_atr = df.loc[i, 'ATR']
+                atr_dist_tp = current_atr * ATR_TP_MULTIPLIER
                 if risk_dist > 0:
                     # Calculate position (Simplified)
                     risk_money = current_balance * (RISK_PERCENT / 100.0)
                     units = risk_money / risk_dist
 
+
                     if tech_direction == "Buy":
                         take_profit = entry_price + (risk_dist * RISK_REWARD)
+                        #take_profit = entry_price + atr_dist_tp
                     else:
                         take_profit = entry_price - (risk_dist * RISK_REWARD)
+                        #take_profit = entry_price - atr_dist_tp
 
                     # Find Exit
                     outcome = ""
@@ -387,21 +403,63 @@ def run_strategy_with_macro(df, symbol):
                                 break
 
                     if outcome != "":
-                        pnl = (exit_price - entry_price) * units if tech_direction == "Buy" else (
-                                                                                                             entry_price - exit_price) * units
-                        current_balance += pnl
+                        # Raw PnL (without commission)
+                        raw_pnl = (exit_price - entry_price) * units if tech_direction == "Buy" else (
+                                                                                                                 entry_price - exit_price) * units
+
+                        # For FUTURES: Calculate number of contracts
+                        # Each CL contract = 1,000 barrels
+                        # Each Brent contract = 1,000 barrels
+                        CONTRACT_SIZE = 1000  # Standard for crude oil futures
+                        num_contracts = units / CONTRACT_SIZE
+
+                        # Commission: Per contract, both sides (entry + exit)
+                        total_commission = (COMMISSION_PER_CONTRACT * num_contracts) * 2
+
+                        # Net PnL
+                        net_pnl = raw_pnl - total_commission
+                        current_balance += net_pnl
+
                         trades.append({
                             "Date": df.loc[i, "DateTime"],
                             "Type": tech_direction,
-                            "Macro_Score": macro_score,  # Log score to see why we took trade
-                            "Profit": round(pnl, 2),
-                            "Balance": round(current_balance, 2)
+                            "Macro_Score": macro_score,
+                            "Raw_PnL": round(raw_pnl, 2),
+                            "Commission": round(total_commission, 2),
+                            "Profit": round(net_pnl, 2),
+                            "Balance": round(current_balance, 2),
+                            "Units": units,
+                            "Contracts": round(num_contracts, 2),  # Track actual contracts
                         })
                         i = j  # Skip processed bars
 
         i += 1
 
     return pd.DataFrame(trades)
+
+
+def calculate_atr(df, period=14):
+    """
+    Calculates Average True Range (ATR).
+    """
+    high = df['High']
+    low = df['Low']
+    close = df['Close']
+    prev_close = close.shift(1)
+
+    # 1. True Range Calculation
+    tr1 = high - low
+    tr2 = abs(high - prev_close)
+    tr3 = abs(low - prev_close)
+
+    # Берем максимальное значение из трех вариантов
+    tr = pd.concat([tr1, tr2, tr3], axis=1).max(axis=1)
+
+    # 2. ATR Calculation (Simple Moving Average of TR)
+    # Можно использовать ewm (экспоненциальное), но rolling (простое) тоже ок
+    df['ATR'] = tr.rolling(window=period).mean()
+
+    return df
 
 
 # --- MAIN EXECUTION ---
@@ -451,16 +509,21 @@ if __name__ == "__main__":
                 losses_persentage = losses / total_trades * 100
                 tharp_expectancy = (avg_wins_trades * win_persentage + avg_losses_trades * losses_persentage) / (
                     -avg_losses_trades)
+                total_commission = results['Commission'].sum()
+
                 print(f"Total Trades: {len(results)}")
                 print(f"Total Returns: {((results['Balance'].iloc[-1] - INITIAL_CAPITAL) / INITIAL_CAPITAL) * 100:.2f}%")
                 print(f"Final Balance: ${results.iloc[-1]['Balance']}")
                 print(f"Win Rate: {round(results[results['Profit'] > 0].shape[0] / len(results) * 100, 2)}%")
                 print(f"Wins:{results[results['Profit'] > 0]['Profit'].count()}")
                 print(f"Losses:{results[results['Profit'] < 0]['Profit'].count()}")
-                print(f"Max Drawdown: {(INITIAL_CAPITAL - results["Balance"].min())/100}%")
+                print(f"Max Drawdown: {(INITIAL_CAPITAL - results['Balance'].min())/100}%")
                 print(f"Sharpe Ratio: {round(results['Profit'].mean() / results['Profit'].std() * np.sqrt(252), 4)}")
                 print(f"Tharp Expectancy: {round(tharp_expectancy, 2)}")
+                print(f"AVG losses/trades: ${avg_losses_trades}")
+                print(f"AVG wins/trades: ${avg_wins_trades}")
                 print(f"Avg Net Trade Profit: ${avg_trade_net_profit}")
+                print(f"Total Commission: ${total_commission}")
 
                 # Show correlation between score and trades
                 print("Trades by Macro Sentiment:")
