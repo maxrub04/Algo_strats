@@ -1,1 +1,3 @@
-# Inside_bar_Private_only_me
+# Algo_strats
+
+Creating algo strategies for FX market using fundamental, technical and machine learning technics
