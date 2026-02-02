@@ -6,8 +6,8 @@ from numba import njit, float64, int64, int32, boolean
 # --- CONFIGURATION ---
 SYMBOLS = ["USDJPY", "XAUUSD", "BRENTCMDUSD"]
 TIMEFRAMES = ["1H", "4H", "D"]
-FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"  # Update path if needed
-OUTPUT_DIR = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_trades"
+FOLDER = ""  # Update path if needed
+OUTPUT_DIR = ""
 
 RISK_REWARD = 2.0
 INITIAL_CAPITAL = 10000.0
