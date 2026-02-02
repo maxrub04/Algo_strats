@@ -3,7 +3,7 @@ from fredapi import Fred
 import numpy as np
 
 # --- CONFIGURATION ---
-API_KEY = 'bb21719b26aff61c740702ea701a07ed'
+API_KEY = 'YOUR_API'
 
 INDICATORS_MAP = {
     'FEDFUNDS': 'Interest_Rate',
