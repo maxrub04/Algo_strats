@@ -286,7 +286,7 @@ def quick_test(trades_file: str, initial_capital: float = 10000.0):
 
 
 if __name__ == "__main__":
-    print("Unified Strategy Testing Framework")
+   """ print("Unified Strategy Testing Framework")
     print("=" * 70)
     print("\nQuick Start:")
     print("  from strategy_tester import quick_test")
@@ -294,4 +294,6 @@ if __name__ == "__main__":
     print("\nAdvanced Usage:")
     print("  tester = StrategyTester('my_trades.csv', initial_capital=10000)")
     print("  results = tester.run_all_tests(output_dir='./test_results')")
-    print("  tester.generate_report('report.txt')")
+    print("  tester.generate_report('report.txt')")"""
+   file="/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results/BRENTCMDUSD_4h_trades.csv"
+   results=quick_test(file)
