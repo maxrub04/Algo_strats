@@ -7,7 +7,7 @@ import seaborn as sns
 from itertools import product
 
 # --- CONFIGURATION ---
-FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'
+FRED_API_KEY = '[api]'
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 SYMBOL = "BRENTCMDUSD"
 TIMEFRAME = "4h"

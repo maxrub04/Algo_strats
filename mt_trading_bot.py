@@ -23,8 +23,8 @@ class TradingConfig:
     """Конфигурация бота"""
 
     # MT5 Connection
-    MT5_LOGIN = int(os.getenv('MT5_LOGIN', '5045893454'))
-    MT5_PASSWORD = os.getenv('MT5_PASSWORD', '1_IhKrTj')
+    MT5_LOGIN = int(os.getenv('MT5_LOGIN', '0'))
+    MT5_PASSWORD = os.getenv('MT5_PASSWORD', '[password]')
     MT5_SERVER = os.getenv('MT5_SERVER', 'OANDATMS-MT5')
 
     # Trading Parameters
@@ -43,7 +43,7 @@ class TradingConfig:
     MIN_ATR = 0.5  # Минимальный ATR для фильтрации низкой волатильности
 
     # Macro Filter
-    FRED_API_KEY = os.getenv('FRED_API_KEY', 'bb21719b26aff61c740702ea701a07ed')
+    FRED_API_KEY = os.getenv('FRED_API_KEY', '[api]')
     USE_MACRO_FILTER = os.getenv('USE_MACRO_FILTER', 'true').lower() == 'true'
 
     # Trading Hours (UTC)
@@ -57,8 +57,8 @@ class TradingConfig:
 
     # AWS/Cloud
     ENABLE_NOTIFICATIONS = os.getenv('ENABLE_NOTIFICATIONS', 'false').lower() == 'true'
-    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '8369050793:AAF5KnCZwvR4TjjvfAx4GcKyxBzorM_FojQ')
-    TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', 'mt5oandatestbot')
+    TELEGRAM_BOT_TOKEN = os.getenv('TELEGRAM_BOT_TOKEN', '[api]')
+    TELEGRAM_CHAT_ID = os.getenv('TELEGRAM_CHAT_ID', '[chat_id]')
 
 
 # =============================================================================

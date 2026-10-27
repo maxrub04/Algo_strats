@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # --- CONFIGURATION ---
-FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'
+FRED_API_KEY = '[api]'
 FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data"
 
 # Strategy Settings

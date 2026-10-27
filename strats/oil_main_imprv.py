@@ -18,7 +18,7 @@ import json
 class Config:
     """Centralized configuration"""
     # API & Paths
-    FRED_API_KEY = 'bb21719b26aff61c740702ea701a07ed'
+    FRED_API_KEY = '[api]'
     DATA_FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/data/dukascopy/brent"
     OUTPUT_FOLDER = "/Users/maxxxxx/PycharmProjects/InsideBarStrg/inside_bar_rub/backtest_results"
 

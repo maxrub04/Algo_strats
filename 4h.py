@@ -33,8 +33,8 @@ if sys.platform == "win32":
 # =============================================================================
 
 class TradingConfig:
-    MT5_LOGIN = int(os.getenv("MT5_LOGIN", "62638199"))
-    MT5_PASSWORD = os.getenv("MT5_PASSWORD", "nEdgos-refkeg1")
+    MT5_LOGIN = int(os.getenv("MT5_LOGIN", "0"))
+    MT5_PASSWORD = os.getenv("MT5_PASSWORD", "[password]")
     MT5_SERVER = os.getenv("MT5_SERVER", "OANDATMS-MT5")
 
     SYMBOL = os.getenv("SYMBOL", "OILBRNT.pro")
@@ -48,7 +48,7 @@ class TradingConfig:
 
     ACCOUNT_CURRENCY = ""
 
-    FRED_API_KEY = os.getenv("FRED_API_KEY", "bb21719b26aff61c740702ea701a07ed")
+    FRED_API_KEY = os.getenv("FRED_API_KEY", "[api]")
     USE_MACRO_FILTER = os.getenv("USE_MACRO_FILTER", "true").lower() == "true"
 
     TRADING_START_HOUR = 2
@@ -60,8 +60,8 @@ class TradingConfig:
     LOG_FILE = os.getenv("LOG_FILE", "trading_bot.log")
 
     ENABLE_NOTIFICATIONS = os.getenv("ENABLE_NOTIFICATIONS", "false").lower() == "true"
-    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "8369050793:AAF5KnCZwvR4TjjvfAx4GcKyxBzorM_FojQ")
-    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "mt5oandatestbot")
+    TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "[api]")
+    TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "[chat_id]")
 
 
 # =============================================================================
